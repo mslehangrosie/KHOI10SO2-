@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MID-TERM TEST 2 (GRADE 10) - Ms Lê Hằng English</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        nunito: ['Nunito', 'sans-serif'],
+                        quicksand: ['Quicksand', 'sans-serif'],
+                    },
+                    colors: {
+                        correct: '#00D26A',
+                        correctDark: '#00B058',
+                        wrong: '#FF4757',
+                        wrongDark: '#D63031',
+                        pastelPurple: '#8854C0',
+                        pastelYellow: '#FDCB6E',
+                        pastelGreen: '#00C9A7',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Continuous animated gradient background */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(-45deg, #8854C0, #ee7752, #e73c7e, #23a6d5, #23d5ab, #FDCB6E, #00C9A7);
+            background-size: 400% 400%;
+            animation: gradientBG 18s ease infinite;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating background patterns layer */
+        .bg-patterns {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-icon {
+            position: absolute;
+            opacity: 0.25;
+            animation: floatAnim 12s infinite ease-in-out;
+        }
+
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-30px) rotate(15deg) scale(1.1); }
+        }
+
+        /* Gamification 3D Card & Buttons */
+        .card-3d {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 6px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
+        }
+
+        .option-btn {
+            transition: all 0.15s ease;
+            border-width: 2px;
+            border-style: solid;
+            border-color: #e2e8f0;
+            border-bottom-width: 5px;
+            border-radius: 16px;
+            background-color: #ffffff;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            transform: translateY(-2px) scale(1.015);
+            border-color: #93c5fd;
+            background-color: #f0f9ff;
+        }
+
+        .option-btn:active:not(.disabled) {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        .option-btn.selected-correct {
+            background-color: #dcfce7 !important;
+            border-color: #00D26A !important;
+            color: #14532d !important;
+            border-bottom-width: 5px !important;
+            box-shadow: 0 4px 12px rgba(0, 210, 106, 0.3);
+        }
+
+        .option-btn.selected-wrong {
+            background-color: #ffe4e6 !important;
+            border-color: #FF4757 !important;
+            color: #881337 !important;
+            border-bottom-width: 5px !important;
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        /* Explanation Box Styling */
+        .explanation-box {
+            background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+            border: 2px solid #3b82f6;
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+        }
+
+        .reading-passage {
+            background: #f8fafc;
+            border-left: 5px solid #8854C0;
+            border-radius: 12px;
+            line-height: 1.7;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8854C0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="py-6 px-3 sm:px-6">
+
+    <!-- Floating Background SVG Icons -->
+    <div class="bg-patterns">
+        <!-- Star -->
+        <svg class="floating-icon" style="top:5%; left:8%; width:48px; animation-delay:0s;" fill="#FDCB6E" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <!-- Cloud -->
+        <svg class="floating-icon" style="top:18%; right:10%; width:64px; animation-delay:2s;" fill="#FFFFFF" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+        <!-- Heart -->
+        <svg class="floating-icon" style="top:45%; left:4%; width:40px; animation-delay:4s;" fill="#FF4757" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <!-- Flower -->
+        <svg class="floating-icon" style="top:65%; right:6%; width:52px; animation-delay:1s;" fill="#00C9A7" viewBox="0 0 24 24"><path d="M12 2a4 4 0 00-4 4 4 4 0 00-4 4 4 4 0 004 4 4 4 0 004-4 4 4 0 004 4 4 4 0 004-4 4 4 0 00-4-4 4 4 0 00-4-4zm0 10a2 2 0 110-4 2 2 0 010 4z"/></svg>
+        <!-- Strawberry -->
+        <svg class="floating-icon" style="top:85%; left:12%; width:44px; animation-delay:3s;" fill="#e73c7e" viewBox="0 0 24 24"><path d="M12 2c-1 0-2 1-2 2 0 .55.45 1 1 1h2c.55 0 1-.45 1-1 0-1-1-2-2-2zm6 5s-2-2-6-2-6 2-6 2c-2 3-1 8 2 11 2.5 2.5 3.5 3 4 3s1.5-.5 4-3c3-3 4-8 2-11z"/></svg>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto relative z-10 space-y-6">
+
+        <!-- HEADER SECTION -->
+        <header class="card-3d p-6 text-center space-y-3 border-t-8 border-purple-600">
+            <span class="inline-block px-4 py-1.5 bg-purple-100 text-purple-800 rounded-full font-bold text-xs sm:text-sm tracking-wide">
+                Giáo viên tạo: Ms Lê Hằng English
+            </span>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-gray-800 font-quicksand uppercase tracking-tight">
+                MID-TERM TEST 2 (GRADE 10)
+            </h1>
+            <p class="text-xs sm:text-sm text-pink-600 font-bold bg-pink-50 py-2 px-4 rounded-xl border border-pink-200">
+                📢 Đăng kí học tiếng anh 1-12, IELTS vui lòng liên hệ Ms Lê Hằng, zalo 0584 965 348.
+            </p>
+        </header>
+
+        <!-- REMINDER NOTIFICATION BOX -->
+        <div class="card-3d p-5 bg-gradient-to-r from-amber-50 to-orange-50 border-l-8 border-amber-500 text-amber-900">
+            <div class="flex items-start space-x-3">
+                <span class="text-3xl">⚠️</span>
+                <div class="space-y-1">
+                    <h3 class="font-black text-base sm:text-lg text-amber-800 uppercase tracking-wide">
+                        LỜI NHẮC CỰC KỲ QUAN TRỌNG
+                    </h3>
+                    <p class="text-xs sm:text-sm font-bold text-amber-900 leading-relaxed">
+                        Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên. 
+                        Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích! 
+                        <span class="underline decoration-wavy decoration-red-500">Kéo tới đâu, làm tới đó!</span> *
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCORE PROGRESS BAR STICKY HEADER -->
+        <div class="sticky top-3 z-30 card-3d p-4 bg-white/95 backdrop-blur flex justify-between items-center shadow-md">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl">⭐</span>
+                <span class="font-extrabold text-gray-700 text-sm sm:text-base">Tiến độ:</span>
+                <span id="progress-text" class="font-black text-purple-700 text-sm sm:text-base">0 / 40</span>
+            </div>
+            <div class="w-1/2 bg-gray-200 rounded-full h-4 overflow-hidden p-0.5 border border-gray-300">
+                <div id="progress-bar" class="bg-gradient-to-r from-green-400 to-emerald-500 h-3 rounded-full transition-all duration-300 w-0"></div>
+            </div>
+        </div>
+
+        <!-- QUESTIONS CONTAINER -->
+        <div id="quiz-container" class="space-y-8">
+            <!-- Questions will be dynamically inserted here -->
+        </div>
+
+        <!-- SUBMIT SECTION -->
+        <div class="text-center py-6">
+            <button id="submit-btn" onclick="submitQuiz()" class="px-10 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-lg sm:text-xl rounded-2xl shadow-lg border-b-4 border-teal-800 transform active:scale-95 transition-all">
+                🏆 NỘP BÀI VÀ XEM ĐIỂM 🏆
+            </button>
+        </div>
+
+    </div>
+
+    <!-- RESULT POPUP MODAL -->
+    <div id="result-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="card-3d bg-white p-6 sm:p-8 max-w-md w-full text-center space-y-5 animate-bounce-short">
+            <div id="modal-icon" class="text-6xl">🎉</div>
+            <h2 class="text-2xl font-black text-gray-800">KẾT QUẢ BÀI THI</h2>
+            
+            <div class="bg-purple-50 p-4 rounded-2xl border-2 border-purple-200">
+                <p class="text-gray-600 font-bold text-sm">Điểm số của bạn:</p>
+                <p id="score-text" class="text-4xl font-black text-purple-700 my-1">0 / 40</p>
+                <p id="percentage-text" class="text-lg font-extrabold text-emerald-600">(0%)</p>
+            </div>
+
+            <div id="feedback-box" class="p-4 rounded-xl text-sm font-bold text-gray-700 bg-amber-50 border border-amber-200 text-left leading-relaxed">
+                <!-- Teacher Feedback -->
+            </div>
+
+            <button onclick="closeModal()" class="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-black text-base rounded-xl border-b-4 border-purple-900 transform active:scale-95 transition">
+                Đóng & Xem lại giải thích
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Web Audio API for Gamification Sounds (No external audio file links required)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playDingSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.3); // C6
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
+        }
+
+        function playBuzzSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(110, audioCtx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.4);
+        }
+
+        // 40 QUESTIONS DATASET WITH FULL EXPLANATIONS
+        const questionsData = [
+            // PASSAGE 1: ADVERTISEMENT (Q1-Q6)
+            {
+                id: 1,
+                section: "ADVERTISEMENT: EchoEternity: Sounds That Outlive Time Itself",
+                passage: "The revolutionary sound (1)______ has transformed how we experience music.",
+                questionText: "Question 1:",
+                options: [
+                    { id: "A", text: "technologize" },
+                    { id: "B", text: "technological" },
+                    { id: "C", text: "technology" },
+                    { id: "D", text: "technologist" }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Âm thanh công nghệ mang tính cách mạng đã thay đổi cách chúng ta trải nghiệm âm nhạc.",
+                    optionsBreakdown: [
+                        "A. technologize (v): công nghệ hóa",
+                        "B. technological (adj): thuộc về công nghệ",
+                        "C. technology (n): công nghệ",
+                        "D. technologist (n): chuyên gia công nghệ"
+                    ],
+                    whyCorrect: "Chọn C vì sau tính từ 'sound' cần một danh từ để tạo thành cụm danh từ 'sound technology' (công nghệ âm thanh).",
+                    whyOthersWrong: "A là động từ; B là tính từ không đứng vị trí này; D chỉ người (chuyên gia công nghệ) không hợp ngữ cảnh."
+                }
+            },
+            {
+                id: 2,
+                section: "ADVERTISEMENT: EchoEternity: Sounds That Outlive Time Itself",
+                passage: "Our (2)______ delivers crystal-clear sound quality that captivates listeners worldwide.",
+                questionText: "Question 2:",
+                options: [
+                    { id: "A", text: "innovative audio equipment" },
+                    { id: "B", text: "audio innovative equiment" },
+                    { id: "C", text: "equipment innovative audio" },
+                    { id: "D", text: "innovative equipment audio" }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "Thiết bị âm thanh tân tiến của chúng tôi mang lại chất lượng âm thanh trong trẻo tuyệt đối thu hút người nghe trên toàn thế giới.",
+                    optionsBreakdown: [
+                        "A. innovative audio equipment: thiết bị âm thanh đổi mới/tân tiến",
+                        "B, C, D: Sai trật tự từ trong cụm danh từ"
+                    ],
+                    whyCorrect: "Chọn A theo đúng trật tự cụm danh từ: Tính từ (innovative) + Danh từ bổ nghĩa (audio) + Danh từ chính (equipment).",
+                    whyOthersWrong: "B, C, D sắp xếp sai thứ tự tính từ và danh từ bổ nghĩa trong tiếng Anh."
+                }
+            },
+            {
+                id: 3,
+                section: "ADVERTISEMENT: EchoEternity: Sounds That Outlive Time Itself",
+                passage: "EchoEternity speakers, (3)______ by award-winning engineers, produce unmatched sound fidelity.",
+                questionText: "Question 3:",
+                options: [
+                    { id: "A", text: "which designed" },
+                    { id: "B", text: "designing" },
+                    { id: "C", text: "was designed" },
+                    { id: "D", text: "designed" }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Loa EchoEternity, được thiết kế bởi các kỹ sư đoạt giải thưởng, tạo ra độ chân thực âm thanh vô song.",
+                    optionsBreakdown: [
+                        "A. which designed: mệnh đề quan hệ dạng chủ động (sai nghĩa bị động)",
+                        "B. designing: V-ing (dùng cho dạng chủ động)",
+                        "C. was designed: thiếu mệnh đề quan hệ 'which'",
+                        "D. designed: rút gọn mệnh đề quan hệ dạng bị động (which were designed)"
+                    ],
+                    whyCorrect: "Chọn D vì đây là câu rút gọn mệnh đề quan hệ mang nghĩa bị động (Loa 'được thiết kế' bởi kỹ sư).",
+                    whyOthersWrong: "A sai vì thiếu động từ 'were' (which were designed); B mang nghĩa chủ động; C sai ngữ pháp vì thiếu đại từ quan hệ."
+                }
+            },
+            {
+                id: 4,
+                section: "ADVERTISEMENT: EchoEternity: Sounds That Outlive Time Itself",
+                passage: "Our specialists offer customers advice (4)______ sound system selection.",
+                questionText: "Question 4:",
+                options: [
+                    { id: "A", text: "for" },
+                    { id: "B", text: "about" },
+                    { id: "C", text: "to" },
+                    { id: "D", text: "with" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Các chuyên gia của chúng tôi cung cấp cho khách hàng lời khuyên về việc lựa chọn hệ thống âm thanh.",
+                    optionsBreakdown: [
+                        "A. for: cho",
+                        "B. about: về (chủ đề gì)",
+                        "C. to: tới",
+                        "D. with: với"
+                    ],
+                    whyCorrect: "Chọn B vì đi kèm danh từ 'advice' ta dùng giới từ 'on' hoặc 'about' (advice about sth: lời khuyên về cái gì).",
+                    whyOthersWrong: "A, C, D không dùng kết hợp với danh từ 'advice' khi nói về chủ đề được tư vấn."
+                }
+            },
+            {
+                id: 5,
+                section: "ADVERTISEMENT: EchoEternity: Sounds That Outlive Time Itself",
+                passage: "EchoEternity products have been (5)______ like hot cakes since our latest launch event.",
+                questionText: "Question 5:",
+                options: [
+                    { id: "A", text: "selling" },
+                    { id: "B", text: "moving" },
+                    { id: "C", text: "flying" },
+                    { id: "D", text: "going" }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "Các sản phẩm của EchoEternity đã và đang bán chạy như tôm tươi kể từ sự kiện ra mắt mới nhất.",
+                    optionsBreakdown: [
+                        "A. selling: bán",
+                        "B. moving: di chuyển",
+                        "C. flying: bay",
+                        "D. going: đi"
+                    ],
+                    whyCorrect: "Chọn A vì thành ngữ cố định (Idiom): 'sell like hot cakes' có nghĩa là bán rất chạy / bán chạy như tôm tươi.",
+                    whyOthersWrong: "B, C, D không kết hợp với 'like hot cakes' để tạo thành thành ngữ chuẩn."
+                }
+            },
+            {
+                id: 6,
+                section: "ADVERTISEMENT: EchoEternity: Sounds That Outlive Time Itself",
+                passage: "We encourage listening to our demonstrations before (6)______ your purchase decision.",
+                questionText: "Question 6:",
+                options: [
+                    { id: "A", text: "to making" },
+                    { id: "B", text: "make" },
+                    { id: "C", text: "making" },
+                    { id: "D", text: "to make" }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Chúng tôi khuyến khích bạn lắng nghe phần thử nghiệm trước khi đưa ra quyết định mua hàng.",
+                    optionsBreakdown: [
+                        "A. to making: sai cấu trúc",
+                        "B. make: động từ nguyên mẫu",
+                        "C. making: V-ing",
+                        "D. to make: to-V"
+                    ],
+                    whyCorrect: "Chọn C vì sau giới từ 'before' động từ phải ở dạng V-ing (before + V-ing) kết hợp thành cụm 'make a decision'.",
+                    whyOthersWrong: "A, B, D sai ngữ pháp vì không tuân theo quy tắc giới từ + V-ing."
+                }
+            },
+
+            // PASSAGE 2: LEAFLET (Q7-Q12)
+            {
+                id: 7,
+                section: "LEAFLET: Climate Positive Living",
+                passage: "We have planted 100 trees this month and plan to plant (7)______ 100 next month.",
+                questionText: "Question 7:",
+                options: [
+                    { id: "A", text: "others" },
+                    { id: "B", text: "another" },
+                    { id: "C", text: "the others" },
+                    { id: "D", text: "other" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Chúng tôi đã trồng 100 cây trong tháng này và dự định trồng thêm 100 cây nữa vào tháng tới.",
+                    optionsBreakdown: [
+                        "A. others (pronoun): những cái khác",
+                        "B. another (+ con số + N số nhiều): thêm... nữa",
+                        "C. the others: những cái còn lại",
+                        "D. other (+ N số nhiều): những cái khác"
+                    ],
+                    whyCorrect: "Chọn B vì cấu trúc 'another + con số + danh từ số nhiều' mang nghĩa là thêm một lượng bao nhiêu nữa.",
+                    whyOthersWrong: "A, C là đại từ; D không đứng trước một số đếm cụ thể trong cấu trúc thêm lượng này."
+                }
+            },
+            {
+                id: 8,
+                section: "LEAFLET: Climate Positive Living",
+                passage: "We need to (8)______ plastic use to protect our oceans and wildlife.",
+                questionText: "Question 8:",
+                options: [
+                    { id: "A", text: "put up with" },
+                    { id: "B", text: "look forward to" },
+                    { id: "C", text: "get away with" },
+                    { id: "D", text: "cut down on" }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Chúng ta cần cắt giảm việc sử dụng nhựa để bảo vệ đại dương và động vật hoang dã.",
+                    optionsBreakdown: [
+                        "A. put up with: chịu đựng",
+                        "B. look forward to: trông mong",
+                        "C. get away with: trốn phạt",
+                        "D. cut down on: cắt giảm"
+                    ],
+                    whyCorrect: "Chọn D vì 'cut down on plastic use' có nghĩa là cắt giảm sử dụng đồ nhựa, phù hợp nhất với ngữ cảnh bảo vệ môi trường.",
+                    whyOthersWrong: "A, B, C hoàn toàn sai nghĩa ngữ cảnh."
+                }
+            },
+            {
+                id: 9,
+                section: "LEAFLET: Climate Positive Living",
+                passage: "The biodiversity of our planet is at (9)______ due to climate change.",
+                questionText: "Question 9:",
+                options: [
+                    { id: "A", text: "risk" },
+                    { id: "B", text: "danger" },
+                    { id: "C", text: "threat" },
+                    { id: "D", text: "peril" }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "Sự đa dạng sinh học của hành tinh chúng ta đang gặp nguy hiểm do biến đổi khí hậu.",
+                    optionsBreakdown: [
+                        "A. risk: rủi ro / nguy cơ",
+                        "B. danger: mối nguy hiểm (dùng in danger)",
+                        "C. threat: sự đe dọa (dùng under threat)",
+                        "D. peril: hiểm họa"
+                    ],
+                    whyCorrect: "Chọn A vì ta có cụm từ cố định 'at risk' (đang gặp nguy hiểm/rủi ro).",
+                    whyOthersWrong: "B phải dùng 'in danger'; C phải dùng 'under threat'."
+                }
+            },
+            {
+                id: 10,
+                section: "LEAFLET: Climate Positive Living",
+                passage: "(10)______ research, small daily actions can create big environmental changes.",
+                questionText: "Question 10:",
+                options: [
+                    { id: "A", text: "Regardless of" },
+                    { id: "B", text: "According to" },
+                    { id: "C", text: "Contrary to" },
+                    { id: "D", text: "Because of" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Theo như nghiên cứu, những hành động nhỏ hàng ngày có thể tạo ra những thay đổi lớn về môi trường.",
+                    optionsBreakdown: [
+                        "A. Regardless of: Bất chấp",
+                        "B. According to: Theo như",
+                        "C. Contrary to: Trái ngược với",
+                        "D. Because of: Bởi vì"
+                    ],
+                    whyCorrect: "Chọn B vì 'According to research' (Theo như nghiên cứu) là cụm từ chuẩn để dẫn nguồn thông tin.",
+                    whyOthersWrong: "A, C, D làm sai lệch ý nghĩa dẫn nguồn nghiên cứu khoa học."
+                }
+            },
+            {
+                id: 11,
+                section: "LEAFLET: Climate Positive Living",
+                passage: "Sustainability is our (11)______ for a healthier planet.",
+                questionText: "Question 11:",
+                options: [
+                    { id: "A", text: "vision" },
+                    { id: "B", text: "mission" },
+                    { id: "C", text: "goal" },
+                    { id: "D", text: "target" }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Sự bền vững là mục tiêu của chúng tôi vì một hành tinh khỏe mạnh hơn.",
+                    optionsBreakdown: [
+                        "A. vision: tầm nhìn",
+                        "B. mission: sứ mệnh",
+                        "C. goal: mục tiêu",
+                        "D. target: chỉ tiêu"
+                    ],
+                    whyCorrect: "Chọn C vì 'goal' chỉ mục tiêu hướng tới chung trong phong trào môi trường.",
+                    whyOthersWrong: "A, B, D ít tự nhiên hơn trong ngữ cảnh khẩu hiệu hành động môi trường này."
+                }
+            },
+            {
+                id: 12,
+                section: "LEAFLET: Climate Positive Living",
+                passage: "A (12)______ of people are joining our climate positive movement.",
+                questionText: "Question 12:",
+                options: [
+                    { id: "A", text: "majority" },
+                    { id: "B", text: "handful" },
+                    { id: "C", text: "multitude" },
+                    { id: "D", text: "lot" }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Rất nhiều người đang tham gia vào phong trào sống tích cực với khí hậu của chúng tôi.",
+                    optionsBreakdown: [
+                        "A. majority: phần lớn (dùng 'a majority of' nhưng 'lot' phổ biến với 'a lot of')",
+                        "B. handful: một nắm nhỏ (số lượng ít)",
+                        "C. multitude: vô số",
+                        "D. lot: nhiều (cụm 'a lot of people')"
+                    ],
+                    whyCorrect: "Chọn D vì cấu trúc 'A lot of + N số nhiều' là cụm từ thông dụng chuẩn xác nhất.",
+                    whyOthersWrong: "A, B, C không tự nhiên bằng 'a lot of' trong ngữ cảnh lời kêu gọi phổ thông này."
+                }
+            },
+
+            // ARRANGEMENT OF UTTERANCES (Q13-Q17)
+            {
+                id: 13,
+                section: "SẮP XẾP HỘI THOẠI / ĐOẠN VĂN (Questions 13-17)",
+                passage: "a. Max: That's brilliant! I'll have what she's having, please.\nb. Max: I can't decide between chocolate and strawberry. Which one do you like better?\nc. Zoe: I always choose both! One scoop of each makes the perfect combination.",
+                questionText: "Question 13: Sắp xếp đoạn hội thoại hợp lý:",
+                options: [
+                    { id: "A", text: "a - b - c" },
+                    { id: "B", text: "b - c - a" },
+                    { id: "C", text: "c - b - a" },
+                    { id: "D", text: "a - c - b" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "b. Max: Tớ không thể quyết định giữa socola và dâu. Cậu thích vị nào hơn?\nc. Zoe: Tớ luôn chọn cả hai! Mỗi loại một viên tạo nên sự kết hợp hoàn hảo.\na. Max: Tuyệt vời! Cho tớ gọi giống cô ấy nhé.",
+                    optionsBreakdown: [
+                        "A. a-b-c: Sai logic",
+                        "B. b-c-a: Đúng logic hội thoại",
+                        "C. c-b-a: Sai câu mở đầu",
+                        "D. a-c-b: Sai thứ tự"
+                    ],
+                    whyCorrect: "Chọn B vì (b) mở đầu bằng câu hỏi ý kiến -> (c) Zoe đưa ra gợi ý chọn cả hai -> (a) Max đồng ý và gọi món theo Zoe.",
+                    whyOthersWrong: "Các phương án khác không tuân theo luồng hội thoại hỏi - đáp - chốt ý kiến."
+                }
+            },
+            {
+                id: 14,
+                section: "SẮP XẾP HỘI THOẠI / ĐOẠN VĂN (Questions 13-17)",
+                passage: "a. Jack: Should we invite others or just go by ourselves?\nb. Jack: Great idea! We could go hiking at the new forest trail or visit that small beach.\nc. Emma: Let's keep it simple - just us two, some snacks, and good music for the drive.\nd. Emma: I'm bored of staying home every weekend. Let's do something exciting!\ne. Emma: The beach sounds perfect! We can build sandcastles and swim if it's warm enough.",
+                questionText: "Question 14: Sắp xếp đoạn hội thoại hợp lý:",
+                options: [
+                    { id: "A", text: "d - b - e - a - c" },
+                    { id: "B", text: "b - a - e - c - d" },
+                    { id: "C", text: "d - c - e - b - a" },
+                    { id: "D", text: "e - d - a - b - c" }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "d. Emma chán ở nhà -> b. Jack gợi ý đi leo núi hoặc đi biển -> e. Emma chọn đi biển -> a. Jack hỏi rủ thêm người không -> c. Emma chốt chỉ đi 2 người.",
+                    optionsBreakdown: [
+                        "A. d - b - e - a - c: Mạch hội thoại hoàn toàn hợp lý",
+                        "B, C, D: Đặt các câu phản hồi trước câu khơi gợi chủ đề"
+                    ],
+                    whyCorrect: "Chọn A vì luồng suy nghĩ: Than chán (d) -> Gợi ý địa điểm (b) -> Phản hồi thích đi biển (e) -> Hỏi thành viên đi cùng (a) -> Chốt đi 2 người (c).",
+                    whyOthersWrong: "Các đáp án khác vi phạm nguyên tắc nguyên nhân - kết quả và phản hồi trong hội thoại."
+                }
+            },
+            {
+                id: 15,
+                section: "SẮP XẾP HỘI THOẠI / ĐOẠN VĂN (Questions 13-17)",
+                passage: "Dear Sam,\na. If you can join us with your guitar, we will sound even better than before.\nb. I am writing because our music group will play at the big protest next week.\nc. Please let me know if you can come, because we need to practice on Saturday.\nd. Although we are small, our songs can help people understand the important message about clean water.\ne. When we sing together, more people listen to what we are saying about helping our community.\nYour friend, LK",
+                questionText: "Question 15: Sắp xếp bức thư hợp lý:",
+                options: [
+                    { id: "A", text: "a - e - b - d - c" },
+                    { id: "B", text: "e - b - d - c - a" },
+                    { id: "C", text: "d - b - a - e - c" },
+                    { id: "D", text: "b - d - e - a - c" }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Thư mời tham gia nhóm nhạc: b. Nêu lý do viết thư (biểu diễn tuần tới) -> d, e. Ý nghĩa các bài hát -> a. Lời mời mang cây đàn guitar -> c. Lời dặn hồi đáp để tập luyện.",
+                    optionsBreakdown: [
+                        "A, B, C: Không mở đầu bằng lý do viết thư 'I am writing because...'",
+                        "D. b - d - e - a - c: Cấu trúc thư chuẩn"
+                    ],
+                    whyCorrect: "Chọn D vì b nêu mục đích viết thư mở đầu ('I am writing because...'), tiếp theo là d, e giải thích ý nghĩa, a mời cụ thể và c kết thư xin phản hồi.",
+                    whyOthersWrong: "A, B, C đảo câu lý do viết thư xuống giữa hoặc cuối là sai cấu trúc viết thư tiếng Anh."
+                }
+            },
+            {
+                id: 16,
+                section: "SẮP XẾP HỘI THOẠI / ĐOẠN VĂN (Questions 13-17)",
+                passage: "a. When teachers show students how to name their emotions, they can talk about being sad or happy instead of crying.\nb. Children need to learn about feelings because it helps them in school and at home.\nc. If schools teach breathing exercises, students can stay calm when tests are difficult or when friends are unkind.\nd. Although some parents think math is more important, children who understand feelings make friends more easily.\ne. Since our world changes quickly, children who know how to handle big feelings will grow into adults who can solve problems and help others.",
+                questionText: "Question 16: Sắp xếp đoạn văn hợp lý:",
+                options: [
+                    { id: "A", text: "c - b - d - a - e" },
+                    { id: "B", text: "a - b - c - d - e" },
+                    { id: "C", text: "b - a - d - c - e" },
+                    { id: "D", text: "d - b - a - c - e" }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "b. Trẻ cần học về cảm xúc -> a. Thầy cô hướng dẫn đặt tên cảm xúc -> d. So sánh tầm quan trọng với môn toán/kết bạn -> c. Bài tập hít thở giúp giữ bình tĩnh -> e. Kết luận lợi ích lâu dài khi trưởng thành.",
+                    optionsBreakdown: [
+                        "C. b - a - d - c - e: Đúng trình tự mở đầu khái quát đến chi tiết và kết luận."
+                    ],
+                    whyCorrect: "Chọn C vì b đưa ra chủ đề tổng quan (trẻ cần học cảm xúc), sau đó a, d, c triển khai các khía cạnh trường học/bạn bè, e là câu kết luận mở rộng ra tương lai.",
+                    whyOthersWrong: "A, B, D đặt các câu ví dụ cụ thể lên trước câu chủ đề."
+                }
+            },
+            {
+                id: 17,
+                section: "SẮP XẾP HỘI THOẠI / ĐOẠN VĂN (Questions 13-17)",
+                passage: "a. Since young people want to be part of the music they enjoy, future platforms will let listeners mix songs...\nb. When fans can talk directly to singers through special platforms, they feel closer...\nc. If musicians use new technology like virtual reality, people can watch concerts from their homes...\nd. Music apps are changing how we listen to songs, which makes artists think about new ways...\ne. Although big streaming companies are popular now, small music sites that pay artists more money are growing quickly.",
+                questionText: "Question 17: Sắp xếp đoạn văn hợp lý:",
+                options: [
+                    { id: "A", text: "d - b - e - c - a" },
+                    { id: "B", text: "d - a - c - e - b" },
+                    { id: "C", text: "d - e - b - c - a" },
+                    { id: "D", text: "d - c - a - e - b" }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "d. Mở chủ đề: Ứng dụng âm nhạc đang thay đổi cách nghe -> b. Tương tác trực tiếp ca sĩ -> e. Các nền tảng nhỏ phát triển -> c. Thực tế ảo VR -> a. Tương lai người nghe tự mix nhạc.",
+                    optionsBreakdown: [
+                        "A. d - b - e - c - a: Mạch liên kết công nghệ âm nhạc tự nhiên và logic nhất."
+                    ],
+                    whyCorrect: "Chọn A vì d mở câu chủ đề chung về ứng dụng âm nhạc, các câu b, e, c triển khai thực trạng hiện tại và a kết luận hướng phát triển tương lai.",
+                    whyOthersWrong: "B, C, D ngắt kết nối giữa thực tế hiện tại và xu hướng công nghệ tương lai."
+                }
+            },
+
+            // GAP FILL PASSAGE: Intergenerational Wisdom (Q18-Q22)
+            {
+                id: 18,
+                section: "GAP FILL: Intergenerational Wisdom in the AI Era",
+                passage: "Many traditional skills (18)______. If we had recognized this problem earlier, we might have preserved more cultural traditions.",
+                questionText: "Question 18:",
+                options: [
+                    { id: "A", text: "are being enhanced when children which create digital content inspired by cultural traditions" },
+                    { id: "B", text: "are being documented as elders whom teach online classes about traditional crafts" },
+                    { id: "C", text: "having evolved while teenagers connecting virtual worlds with ancestral knowledge" },
+                    { id: "D", text: "are being forgotten as children spend more time with screens than with grandparents" }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Nhiều kỹ năng truyền thống đang bị lãng quên khi trẻ em dành nhiều thời gian trước màn hình hơn là với ông bà.",
+                    optionsBreakdown: [
+                        "A, B, C: Sai ngữ pháp và sai nghĩa tiêu cực của 'problem'",
+                        "D. are being forgotten...: đang bị lãng quên vì..."
+                    ],
+                    whyCorrect: "Chọn D vì vế sau đề cập đến 'problem' (vấn đề cần giải quyết) -> vế trước phải mang nghĩa tiêu cực 'traditional skills are being forgotten' (các kỹ năng truyền thống đang bị lãng quên).",
+                    whyOthersWrong: "A, B mang nghĩa tích cực không khớp với từ 'problem' ở câu sau; C sai cấu trúc động từ chia thì."
+                }
+            },
+            {
+                id: 19,
+                section: "GAP FILL: Intergenerational Wisdom in the AI Era",
+                passage: "Having lived through significant historical events and personal challenges, (19)______. Their stories teach us about perseverance...",
+                questionText: "Question 19:",
+                options: [
+                    { id: "A", text: "developing innovative digital platforms connecting generations through shared experiences" },
+                    { id: "B", text: "they developed problem-solving abilities that cannot be programmed into AI systems" },
+                    { id: "C", text: "having created emotional intelligence frameworks adopted by modern education systems" },
+                    { id: "D", text: "they mastered communication strategies evolved from pre-digital social interactions" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Đã sống qua những sự kiện lịch sử quan trọng và thử thách cá nhân, họ đã phát triển khả năng giải quyết vấn đề không thể lập trình vào hệ thống AI.",
+                    optionsBreakdown: [
+                        "A, C: Thiếu chủ ngữ chính 'they'",
+                        "B. they developed problem-solving abilities...: họ đã phát triển khả năng...",
+                        "D: Không liên kết chặt chẽ bằng B"
+                    ],
+                    whyCorrect: "Chọn B vì rút gọn mệnh đề đồng chủ ngữ 'Having lived...', vế sau phải có chủ ngữ 'they' (những người lớn tuổi) và bổ sung ý về trí tuệ con người vượt trội AI.",
+                    whyOthersWrong: "A, C thiếu chủ ngữ chính làm câu sai ngữ pháp; D không tạo mối tương phản rõ ràng với công nghệ hiện đại như B."
+                }
+            },
+            {
+                id: 20,
+                section: "GAP FILL: Intergenerational Wisdom in the AI Era",
+                passage: "Technology companies have finally started to recognize this issue; (20)______. These platforms create virtual spaces...",
+                questionText: "Question 20:",
+                options: [
+                    { id: "A", text: "however, digital platforms replacing traditional mentorship models are rapidly expanding" },
+                    { id: "B", text: "meanwhile, virtual reality games simulating historical events are becoming more popular" },
+                    { id: "C", text: "therefore, new apps connecting young people with elder mentors are being developed" },
+                    { id: "D", text: "surprisingly, elder communities rejecting technological solutions are growing in numbers" }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Các công ty công nghệ cuối cùng đã bắt đầu nhận ra vấn đề này; do đó, các ứng dụng mới kết nối giới trẻ với các cố vấn lớn tuổi đang được phát triển.",
+                    optionsBreakdown: [
+                        "A. however: tuy nhiên (sai từ nối)",
+                        "B. meanwhile: trong khi đó",
+                        "C. therefore, new apps connecting young people with elder mentors are being developed: do đó các ứng dụng mới...",
+                        "D. surprisingly: đáng kinh ngạc"
+                    ],
+                    whyCorrect: "Chọn C vì từ nối 'therefore' (do đó) thể hiện mối quan hệ nguyên nhân - kết quả hợp lý giữa việc công ty nhận ra vấn đề và hành động phát triển ứng dụng.",
+                    whyOthersWrong: "A, B, D dùng sai từ nối nguyên nhân - kết quả trong ngữ cảnh này."
+                }
+            },
+            {
+                id: 21,
+                section: "GAP FILL: Intergenerational Wisdom in the AI Era",
+                passage: "The elders (21)______, while younger users gain insights that help them navigate modern challenges.",
+                questionText: "Question 21:",
+                options: [
+                    { id: "A", text: "designed these algorithms had created digital barriers unintentionally" },
+                    { id: "B", text: "will analyze these interactions would discover communication patterns" },
+                    { id: "C", text: "whom researchers invite to evaluate virtual reality experiences share feedback" },
+                    { id: "D", text: "who participate in these programs feel valued and purposeful" }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Những người lớn tuổi tham gia vào các chương trình này cảm thấy được coi trọng và sống có mục đích...",
+                    optionsBreakdown: [
+                        "A, B, C: Cấu trúc mệnh đề quan hệ sai hoặc hỗn loạn",
+                        "D. who participate in these programs feel valued and purposeful: những người tham gia chương trình này cảm thấy..."
+                    ],
+                    whyCorrect: "Chọn D vì mệnh đề quan hệ 'who participate in these programs' bổ nghĩa cho 'The elders', động từ chính là 'feel valued'.",
+                    whyOthersWrong: "A, B, C chia sai thì động từ và không tạo thành câu hoàn chỉnh có nghĩa."
+                }
+            },
+            {
+                id: 22,
+                section: "GAP FILL: Intergenerational Wisdom in the AI Era",
+                passage: "Grandparents teach cooking techniques while grandchildren show how to share recipes online. (22)______. By respecting both traditional and technological knowledge...",
+                questionText: "Question 22:",
+                options: [
+                    { id: "A", text: "Elders share farming wisdom that young environmental activists apply to urban gardening projects" },
+                    { id: "B", text: "Students create digital platforms where elders document traditional cooking techniques for preservation" },
+                    { id: "C", text: "Technologists develop artificial intelligence systems which analyze ancient farming practices for efficiency" },
+                    { id: "D", text: "Artists incorporate traditional ecological knowledge that elders preserve through storytelling methods" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Học sinh tạo ra các nền tảng kỹ thuật số nơi người lớn tuổi ghi chép lại các kỹ thuật nấu ăn truyền thống để bảo tồn.",
+                    optionsBreakdown: [
+                        "A. Nói về làm nông (không liên quan vế trước nấu ăn)",
+                        "B. Đề cập tiếp chủ đề phối hợp công nghệ & nấu ăn truyền thống",
+                        "C, D: Sai mạch nội dung ví dụ"
+                    ],
+                    whyCorrect: "Chọn B vì tiếp nối trực tiếp ví dụ về nấu ăn (cooking techniques) ở câu ngay trước đó.",
+                    whyOthersWrong: "A, C, D chuyển sang chủ đề nông nghiệp/nghệ thuật làm đứt đoạn mạch ví dụ về nấu ăn."
+                }
+            },
+
+            // COMPREHENSION 1: Electronics & Environment (Q23-Q30)
+            {
+                id: 23,
+                section: "READING COMPREHENSION: Electronics That Return to the Earth",
+                passage: "Researchers are developing biodegradable components... These alternatives include circuit boards from cellulose, semiconductors from proteins, and casings from mycelium.",
+                questionText: "Question 23: Which of the following materials is NOT MENTIONED as a biodegradable component in electronics?",
+                options: [
+                    { id: "A", text: "cellulose" },
+                    { id: "B", text: "mycelium" },
+                    { id: "C", text: "bamboo fiber" },
+                    { id: "D", text: "proteins" }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Vật liệu nào sau đây KHÔNG được nhắc tới như một thành phần phân hủy sinh học trong đồ điện tử?",
+                    optionsBreakdown: [
+                        "A. cellulose (xenluloza - có đề cập trong bài)",
+                        "B. mycelium (tơ nấm - có đề cập)",
+                        "C. bamboo fiber (sợi tre - KHÔNG đề cập)",
+                        "D. proteins (protein - có đề cập)"
+                    ],
+                    whyCorrect: "Chọn C vì trong bài liệt kê cellulose, proteins, và mycelium, hoàn toàn không nhắc tới 'bamboo fiber'.",
+                    whyOthersWrong: "A, B, D đều xuất hiện rõ ràng ở đoạn 1."
+                }
+            },
+            {
+                id: 24,
+                section: "READING COMPREHENSION: Electronics That Return to the Earth",
+                passage: "Traditional electronics contain harmful materials like lead and plastics that persist in landfills for centuries.",
+                questionText: "Question 24: The word 'harmful' in paragraph 1 is OPPOSITE in meaning to:",
+                options: [
+                    { id: "A", text: "dangerous" },
+                    { id: "B", text: "beneficial" },
+                    { id: "C", text: "toxic" },
+                    { id: "D", text: "destructive" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Từ 'harmful' (gây hại) ở đoạn 1 TRAI NGHĨA với từ nào?",
+                    optionsBreakdown: [
+                        "A. dangerous (adj): nguy hiểm (đồng nghĩa)",
+                        "B. beneficial (adj): có lợi, có ích (TRÁI NGHĨA)",
+                        "C. toxic (adj): độc hại (đồng nghĩa)",
+                        "D. destructive (adj): phá hủy (đồng nghĩa)"
+                    ],
+                    whyCorrect: "Chọn B vì harmful = độc hại/gây hại, trái nghĩa hoàn toàn với beneficial = có lợi.",
+                    whyOthersWrong: "A, C, D đều là các từ đồng nghĩa hoặc mang nghĩa tiêu cực tương tự harmful."
+                }
+            },
+            {
+                id: 25,
+                section: "READING COMPREHENSION: Electronics That Return to the Earth",
+                passage: "Major companies are investing in biodegradable electronics...",
+                questionText: "Question 25: The word 'biodegradable' in paragraph 2 could be best replaced by:",
+                options: [
+                    { id: "A", text: "Decomposable" },
+                    { id: "B", text: "compostable" },
+                    { id: "C", text: "sustainable" },
+                    { id: "D", text: "organic" }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "Từ 'biodegradable' (phân hủy sinh học) có thể thay thế tốt nhất bằng từ nào?",
+                    optionsBreakdown: [
+                        "A. Decomposable (adj): có thể phân hủy",
+                        "B. compostable (adj): có thể làm phân bố",
+                        "C. sustainable (adj): bền vững",
+                        "D. organic (adj): hữu cơ"
+                    ],
+                    whyCorrect: "Chọn A vì 'biodegradable' nghĩa là có khả năng bị phân hủy tự nhiên bởi vi sinh vật = decomposable.",
+                    whyOthersWrong: "B, C, D mang nghĩa hẹp hơn hoặc khác biệt về tính chất phân hủy tự nhiên."
+                }
+            },
+            {
+                id: 26,
+                section: "READING COMPREHENSION: Electronics That Return to the Earth",
+                passage: "Some companies offer programs where they collect used devices, compost materials...",
+                questionText: "Question 26: The word 'they' in paragraph 3 refers to:",
+                options: [
+                    { id: "A", text: "programs" },
+                    { id: "B", text: "materials" },
+                    { id: "C", text: "products" },
+                    { id: "D", text: "companies" }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Từ 'they' trong đoạn 3 đề cập đến danh từ nào?",
+                    optionsBreakdown: [
+                        "A. programs: các chương trình",
+                        "B. materials: vật liệu",
+                        "C. products: sản phẩm",
+                        "D. companies: các công ty"
+                    ],
+                    whyCorrect: "Chọn D vì 'Some companies offer programs where they collect...' -> 'they' ở đây thực hiện hành động thu gom (collect) chính là 'companies'.",
+                    whyOthersWrong: "A, B, C không thể thực hiện hành động thu gom thiết bị cũ."
+                }
+            },
+            {
+                id: 27,
+                section: "READING COMPREHENSION: Electronics That Return to the Earth",
+                passage: "Underlined sentence: 'Many people are unaware of proper disposal methods requiring specific composting conditions.'",
+                questionText: "Question 27: Which of the following best paraphrases the underlined sentence?",
+                options: [
+                    { id: "A", text: "The general public often misunderstands how to recycle electronic products through standard waste management systems." },
+                    { id: "B", text: "Few individuals recognize that electronic devices should be returned to manufacturers for specialized breakdown processes." },
+                    { id: "C", text: "Most consumers lack knowledge about correct techniques for discarding items that need particular decomposition environments." },
+                    { id: "D", text: "A significant number of users fail to realize that certain materials require industrial treatment before natural degradation." }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Câu nào diễn đạt lại đúng nhất câu: 'Nhiều người không biết về các phương pháp tiêu hủy thích hợp đòi hỏi các điều kiện ủ phân cụ thể.'",
+                    optionsBreakdown: [
+                        "C. Most consumers lack knowledge (= Many people are unaware) about correct techniques for discarding items (= proper disposal methods) that need particular decomposition environments (= requiring specific composting conditions)."
+                    ],
+                    whyCorrect: "Chọn C vì sử dụng các từ đồng nghĩa tương ứng 1-1 chính xác tuyệt đối với câu gốc.",
+                    whyOthersWrong: "A, B, D đưa thêm các yếu tố 'standard waste', 'manufacturers', 'industrial treatment' không có trong câu gốc."
+                }
+            },
+            {
+                id: 28,
+                section: "READING COMPREHENSION: Electronics That Return to the Earth",
+                passage: "Read passage and find TRUE statement.",
+                questionText: "Question 28: Which of the following is TRUE according to the passage?",
+                options: [
+                    { id: "A", text: "Biodegradable electronics will completely replace traditional devices by the year 2030." },
+                    { id: "B", text: "Companies compost used biodegradable devices to create soil for manufacturing new products." },
+                    { id: "C", text: "Most schools have already implemented comprehensive curricula on sustainable technology." },
+                    { id: "D", text: "Samsung and Apple have both released fully biodegradable smartphones to global markets." }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Khẳng định nào sau đây ĐÚNG theo đoạn văn?",
+                    optionsBreakdown: [
+                        "A. Sai vì bài nói chỉ đạt 15% thị phần vào năm 2030, không phải 'completely replace'",
+                        "B. ĐÚNG: 'compost materials, and use resulting soil for future products'",
+                        "C. Sai vì bài chỉ ghi 'Schools are incorporating...', chưa phải 'most schools'",
+                        "D. Sai vì Samsung mới ra prototype (mẫu thử) chứ chưa bán rộng rãi toàn cầu"
+                    ],
+                    whyCorrect: "Chọn B vì thông tin đoạn 3 khớp hoàn toàn: thu gom thiết bị, ủ phân tạo đất cho sản phẩm tương lai.",
+                    whyOthersWrong: "A, C, D đều thông tin sai lệch so với chi tiết trong bài đọc."
+                }
+            },
+            {
+                id: 29,
+                section: "READING COMPREHENSION: Electronics That Return to the Earth",
+                passage: "Identify paragraph topic.",
+                questionText: "Question 29: In which paragraph does the writer mention the problem of e-waste and biodegradable alternatives?",
+                options: [
+                    { id: "A", text: "Paragraph 4" },
+                    { id: "B", text: "Paragraph 3" },
+                    { id: "C", text: "Paragraph 2" },
+                    { id: "D", text: "Paragraph 1" }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Trong đoạn văn nào tác giả đề cập đến vấn đề rác thải điện tử (e-waste) và các giải pháp thay thế phân hủy sinh học?",
+                    optionsBreakdown: [
+                        "D. Paragraph 1: Ngay từ câu đầu tiên 'The electronics industry faces a crisis as discarded devices create e-waste... Researchers are developing biodegradable components...'"
+                    ],
+                    whyCorrect: "Chọn D vì Đoạn 1 nêu trực tiếp định nghĩa e-waste và các giải pháp linh kiện phân hủy sinh học.",
+                    whyOthersWrong: "Đoạn 2 nói về các công ty; Đoạn 3 nói về tác động môi trường; Đoạn 4 nói về giáo dục người tiêu dùng."
+                }
+            },
+            {
+                id: 30,
+                section: "READING COMPREHENSION: Electronics That Return to the Earth",
+                passage: "Identify paragraph topic.",
+                questionText: "Question 30: In which paragraph does the writer mention what is necessary for biodegradable electronics to succeed?",
+                options: [
+                    { id: "A", text: "Paragraph 4" },
+                    { id: "B", text: "Paragraph 3" },
+                    { id: "C", text: "Paragraph 2" },
+                    { id: "D", text: "Paragraph 1" }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "Trong đoạn văn nào tác giả đề cập đến điều cần thiết để đồ điện tử phân hủy sinh học thành công?",
+                    optionsBreakdown: [
+                        "A. Paragraph 4: Ngay câu đầu 'Consumer education remains crucial for success.'"
+                    ],
+                    whyCorrect: "Chọn A vì Đoạn 4 khẳng định giáo dục người tiêu dùng (Consumer education) là yếu tố quyết định sự thành công.",
+                    whyOthersWrong: "Các đoạn 1, 2, 3 không bàn về điều kiện tiên quyết cho sự thành công này."
+                }
+            },
+
+            // COMPREHENSION 2: Mental Health in Families (Q31-Q40)
+            {
+                id: 31,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "Parents often walk on eggshells around these conversations, fearing they might worsen situations...",
+                questionText: "Question 31: The phrase 'walk on eggshells' in paragraph 1 could be best replaced by:",
+                options: [
+                    { id: "A", text: "back away" },
+                    { id: "B", text: "tip around" },
+                    { id: "C", text: "hold back" },
+                    { id: "D", text: "watch out" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Cụm từ 'walk on eggshells' (đi trên vỏ trứng -> hành sự cực kỳ cẩn trọng/rón rén) có thể thay bằng:",
+                    optionsBreakdown: [
+                        "A. back away: lùi lại",
+                        "B. tip around (tiptoe around): rón rén, cẩn trọng tránh gây rắc rối",
+                        "C. hold back: kiềm chế",
+                        "D. watch out: cẩn thận"
+                    ],
+                    whyCorrect: "Chọn B vì 'walk on eggshells' mang nghĩa hành động cẩn trọng nhẹ nhàng vì sợ làm hỏng việc = tip around / tiptoe around.",
+                    whyOthersWrong: "A, C, D không thể hiện đúng sắc thái rón rén xử lý vấn đề nhạy cảm."
+                }
+            },
+            {
+                id: 32,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "When families create safe spaces for expressing vulnerability, they build foundations for lifelong emotional well-being.",
+                questionText: "Question 32: The word 'they' in paragraph 1 refers to:",
+                options: [
+                    { id: "A", text: "parents" },
+                    { id: "B", text: "children" },
+                    { id: "C", text: "families" },
+                    { id: "D", text: "conversations" }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Từ 'they' ở đoạn 1 đề cập đến:",
+                    optionsBreakdown: [
+                        "A. parents: cha mẹ",
+                        "B. children: con cái",
+                        "C. families: các gia đình",
+                        "D. conversations: cuộc trò chuyện"
+                    ],
+                    whyCorrect: "Chọn C vì vế trước ghi 'When families create... they build...', 'they' thay thế cho chủ ngữ 'families'.",
+                    whyOthersWrong: "A, B chỉ là các thành viên riêng lẻ, không khớp chủ ngữ 'families' của vế điều kiện."
+                }
+            },
+            {
+                id: 33,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "Paragraph 2 insertion slot.",
+                questionText: "Question 33: Where in paragraph 2 does the following sentence best fit?\n'These practices help members feel their feelings matter.'",
+                options: [
+                    { id: "A", text: "[I]" },
+                    { id: "B", text: "[II]" },
+                    { id: "C", text: "[III]" },
+                    { id: "D", text: "[IV]" }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Câu 'Những thực hành này giúp các thành viên cảm thấy cảm xúc của mình được coi trọng' đặt vào vị trí nào hợp lý nhất?",
+                    optionsBreakdown: [
+                        "C. Vị trí [III]: Đặt ngay sau khi liệt kê các phương pháp thực hành cụ thể như câu sử dụng phát ngôn 'I', lắng nghe chủ động (Active listening) và họp gia đình thường xuyên."
+                    ],
+                    whyCorrect: "Chọn C vì 'These practices' (Những thực hành này) tóm gọn lại các kỹ năng giao tiếp được liệt kê ngay trước vị trí [III].",
+                    whyOthersWrong: "Các vị trí [I], [II], [IV] đứng trước hoặc quá xa phần liệt kê chuỗi thực hành này."
+                }
+            },
+            {
+                id: 34,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "Paragraph 3 resources.",
+                questionText: "Question 34: Which of the following is NOT MENTIONED as a resource for families dealing with mental health issues?",
+                options: [
+                    { id: "A", text: "Medication and pharmaceutical treatments" },
+                    { id: "B", text: "Therapists specializing in family dynamics" },
+                    { id: "C", text: "School counseling services" },
+                    { id: "D", text: "Online resources" }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "Yếu tố nào KHÔNG được nhắc đến như một nguồn hỗ trợ gia đình giải quyết sức khỏe tâm lý?",
+                    optionsBreakdown: [
+                        "A. Medication and pharmaceutical treatments (Thuốc và điều trị dược phẩm - KHÔNG nhắc tới)",
+                        "B. Therapists (Có nhắc ở đoạn 3)",
+                        "C. School counseling (Có nhắc ở đoạn 3)",
+                        "D. Online resources (Có nhắc ở đoạn 3)"
+                    ],
+                    whyCorrect: "Chọn A vì trong toàn bộ đoạn 3 không đề cập tới việc dùng thuốc (medication).",
+                    whyOthersWrong: "B, C, D đều xuất hiện rõ ràng trong đoạn 3."
+                }
+            },
+            {
+                id: 35,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "Summarise Paragraph 3.",
+                questionText: "Question 35: Which of the following best summarises paragraph 3?",
+                options: [
+                    { id: "A", text: "Professional therapists are more effective than family members at addressing complex mental health challenges." },
+                    { id: "B", text: "School counselors provide the most accessible resources for families struggling with emotional communication issues." },
+                    { id: "C", text: "External support systems can enhance family approaches to mental health when properly matched to specific cultural needs." },
+                    { id: "D", text: "Online information about mental health conditions is replacing traditional in-person therapeutic interventions." }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Tóm tắt đúng nhất cho đoạn 3 là gì?",
+                    optionsBreakdown: [
+                        "C. Các hệ thống hỗ trợ bên ngoài có thể tăng cường phương pháp tiếp cận của gia đình khi phù hợp với nhu cầu văn hóa."
+                    ],
+                    whyCorrect: "Chọn C vì đoạn 3 tổng kết việc kết hợp nhà trị liệu, tư vấn trường học, online phù hợp với văn hóa gia đình ('matching family's needs and cultural background').",
+                    whyOthersWrong: "A, B, D đều thiên vị một nguồn lực đơn lẻ hoặc đưa ra so sánh cực đoan không có trong bài."
+                }
+            },
+            {
+                id: 36,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "The word 'dynamics' in paragraph 3 is OPPOSITE in meaning to...",
+                questionText: "Question 36: The word 'dynamics' in paragraph 3 is OPPOSITE in meaning to:",
+                options: [
+                    { id: "A", text: "interactions" },
+                    { id: "B", text: "stagnation" },
+                    { id: "C", text: "relationships" },
+                    { id: "D", text: "movements" }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Từ 'dynamics' (sự năng động, sự biến chuyển) TRAI NGHĨA với từ nào?",
+                    optionsBreakdown: [
+                        "A. interactions: sự tương tác",
+                        "B. stagnation (n): sự trì trệ, đình đốn (TRÁI NGHĨA)",
+                        "C. relationships: mối quan hệ",
+                        "D. movements: chuyển động"
+                    ],
+                    whyCorrect: "Chọn B vì 'dynamics' thể hiện sự thay đổi, chuyển động linh hoạt; trái ngược hoàn toàn với 'stagnation' (sự đứng yên, trì trệ).",
+                    whyOthersWrong: "A, C, D là các khía cạnh đồng nghĩa hoặc liên quan đến tương tác biến chuyển."
+                }
+            },
+            {
+                id: 37,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "Underlined sentence: 'Children raised in emotionally expressive homes develop stronger self-awareness and coping mechanisms.'",
+                questionText: "Question 37: Which of the following best paraphrases the underlined sentence in paragraph 4?",
+                options: [
+                    { id: "A", text: "Youth raised with strict emotional boundaries learn to control their feelings through structured family interactions." },
+                    { id: "B", text: "Children who express emotions freely at home often struggle less with academic challenges in their school years." },
+                    { id: "C", text: "Young people who discuss mental health at home become experts in psychological theory and clinical practice." },
+                    { id: "D", text: "Kids from families that openly share feelings gain better emotional intelligence and problem-solving abilities." }
+                ],
+                correct: "D",
+                explanation: {
+                    translation: "Câu diễn đạt lại chuẩn xác nhất câu 'Trẻ em sinh ra trong gia đình bộc lộ cảm xúc sẽ phát triển tự nhận thức và cơ chế ứng phó tốt hơn':",
+                    optionsBreakdown: [
+                        "D. Kids from families that openly share feelings (= Children raised in emotionally expressive homes) gain better emotional intelligence and problem-solving abilities (= develop stronger self-awareness and coping mechanisms)."
+                    ],
+                    whyCorrect: "Chọn D vì diễn đạt lại hoàn hảo từng cụm từ cốt lõi của câu gốc bằng từ đồng nghĩa.",
+                    whyOthersWrong: "A nói về ranh giới nghiêm ngặt; B nói về điểm số học tập; C nói về chuyên gia tâm lý -> đều sai nghĩa."
+                }
+            },
+            {
+                id: 38,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "TRUE statement according to the passage.",
+                questionText: "Question 38: Which of the following is TRUE according to the passage?",
+                options: [
+                    { id: "A", text: "Children who sense parental discomfort around mental health topics often learn to hide their emotional difficulties." },
+                    { id: "B", text: "Families should focus on solving mental health problems rather than acknowledging the courage it takes to share struggles." },
+                    { id: "C", text: "Professional therapists are more effective than family members at addressing all aspects of mental health challenges." },
+                    { id: "D", text: "Regular family meetings about emotions typically create more defensiveness and resistance among family members." }
+                ],
+                correct: "A",
+                explanation: {
+                    translation: "Khẳng định nào sau đây ĐÚNG theo đoạn văn?",
+                    optionsBreakdown: [
+                        "A. ĐÚNG: 'Children, sensing this discomfort, learn that mental health struggles should remain hidden.' (Đoạn 1)"
+                    ],
+                    whyCorrect: "Chọn A vì khớp chính xác thông tin ở đoạn 1.",
+                    whyOthersWrong: "B sai vì bài khuyên nên công nhận sự dũng cảm thay vì cố sửa vấn đề ngay lập tức; C, D trái ngược hoàn toàn lời khuyên trong bài."
+                }
+            },
+            {
+                id: 39,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "Inference from the passage.",
+                questionText: "Question 39: Which of the following can be inferred from the passage?",
+                options: [
+                    { id: "A", text: "Children who struggle with mental health issues typically come from families with poor communication skills." },
+                    { id: "B", text: "Professional therapists should be consulted before attempting to discuss mental health issues within families." },
+                    { id: "C", text: "Society's approach to mental health will improve when families normalize emotional discussions at home." },
+                    { id: "D", text: "Parents who avoid mental health conversations are intentionally causing harm to their children's development." }
+                ],
+                correct: "C",
+                explanation: {
+                    translation: "Điều nào có thể suy ra từ đoạn văn?",
+                    optionsBreakdown: [
+                        "C. Cách tiếp cận của xã hội với sức khỏe tâm lý sẽ cải thiện khi các gia đình bình thường hóa trò chuyện cảm xúc tại nhà."
+                    ],
+                    whyCorrect: "Chọn C vì câu cuối đoạn 4 ghi 'By normalizing these conversations at home, families contribute to a compassionate society...'",
+                    whyOthersWrong: "A, B, D đều quy chụp cực đoan không có căn cứ trong bài."
+                }
+            },
+            {
+                id: 40,
+                section: "READING COMPREHENSION: Breaking Stigmas in Families",
+                passage: "Best summary of the entire passage.",
+                questionText: "Question 40: Which of the following best summarises the passage?",
+                options: [
+                    { id: "A", text: "Professional therapists and school counselors provide the most effective solutions for families struggling with mental health issues." },
+                    { id: "B", text: "Open communication about mental health within families creates foundations for emotional well-being and contributes to societal change." },
+                    { id: "C", text: "Parents must overcome their discomfort with emotional topics before children can develop proper coping mechanisms and self-awareness." },
+                    { id: "D", text: "Regular family meetings focused on emotional check-ins are the primary method for addressing all mental health challenges at home." }
+                ],
+                correct: "B",
+                explanation: {
+                    translation: "Câu nào tóm tắt hay nhất toàn bộ đoạn văn?",
+                    optionsBreakdown: [
+                        "B. Giao tiếp mở về sức khỏe tâm lý trong gia đình tạo nền tảng cho sự bình an cảm xúc và đóng góp vào sự thay đổi của xã hội."
+                    ],
+                    whyCorrect: "Chọn B vì bao quát trọn vẹn từ lợi ích gia đình đến tác động tích cực lan tỏa rộng ra toàn xã hội.",
+                    whyOthersWrong: "A, C, D chỉ nêu một ý nhỏ hẹp hoặc nhấn mạnh sai lệch trọng tâm của bài đọc."
+                }
+            }
+        ];
+
+        // Track user answers
+        const userAnswers = {};
+
+        // Utility function to shuffle array options for gamification randomness
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Render the Quiz on Page Load
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            let currentSection = "";
+
+            questionsData.forEach((q, index) => {
+                // Section Header if changed
+                if (q.section !== currentSection) {
+                    currentSection = q.section;
+                    const sectionHeader = document.createElement('div');
+                    sectionHeader.className = "p-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl shadow-md font-extrabold text-base sm:text-lg tracking-wide uppercase mt-8";
+                    sectionHeader.innerText = currentSection;
+                    container.appendChild(sectionHeader);
+                }
+
+                // Question Card
+                const card = document.createElement('div');
+                card.className = "card-3d p-5 sm:p-7 space-y-4";
+                card.id = `q-card-${q.id}`;
+
+                // Passage Preview if available
+                let passageHtml = '';
+                if (q.passage) {
+                    passageHtml = `
+                        <div class="reading-passage p-4 mb-3 text-sm sm:text-base text-gray-800 font-medium">
+                            ${q.passage.replace(/\n/g, '<br>')}
+                        </div>
+                    `;
+                }
+
+                // Shuffle options for this question
+                const shuffledOptions = shuffleArray(q.options);
+
+                let optionsHtml = '';
+                shuffledOptions.forEach(opt => {
+                    optionsHtml += `
+                        <button type="button" 
+                                onclick="handleSelectOption(${q.id}, '${opt.id}')"
+                                id="btn-${q.id}-${opt.id}"
+                                class="option-btn w-full text-left p-4 font-bold text-gray-700 text-sm sm:text-base flex items-start space-x-3">
+                            <span class="inline-block px-2.5 py-0.5 bg-purple-100 text-purple-800 rounded-lg text-xs font-black uppercase">
+                                ${opt.id}
+                            </span>
+                            <span class="flex-1">${opt.text}</span>
+                        </button>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span class="font-black text-purple-700 text-lg sm:text-xl font-quicksand">${q.questionText}</span>
+                        <span id="badge-${q.id}" class="hidden px-3 py-1 text-xs font-black rounded-full uppercase"></span>
+                    </div>
+
+                    ${passageHtml}
+
+                    <div class="space-y-3">
+                        ${optionsHtml}
+                    </div>
+
+                    <!-- Instant Explanation Container (Hidden initially) -->
+                    <div id="explanation-${q.id}" class="explanation-box p-5 mt-4 space-y-3 hidden animate-fade-in">
+                        <div class="flex items-center space-x-2 text-blue-800 font-extrabold text-base border-b border-blue-200 pb-2">
+                            <span>💡</span>
+                            <span>GIẢI THÍCH CHI TIẾT TỪ MS LÊ HẰNG</span>
+                        </div>
+                        <div class="text-xs sm:text-sm text-gray-800 space-y-2 leading-relaxed">
+                            <p><strong>1. Dịch nghĩa câu hỏi:</strong> ${q.explanation.translation}</p>
+                            <div class="bg-white/80 p-3 rounded-xl border border-blue-100 space-y-1">
+                                <p class="font-bold text-blue-900">2. Phân tích 4 đáp án:</p>
+                                <ul class="list-disc pl-5 space-y-0.5 text-gray-700">
+                                    ${q.explanation.optionsBreakdown.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <p class="text-emerald-800 font-bold"><strong>3. Tại sao chọn ${q.correct}?</strong> ${q.explanation.whyCorrect}</p>
+                            <p class="text-rose-800"><strong>4. Tại sao các đáp án khác sai?</strong> ${q.explanation.whyOthersWrong}</p>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Handle Answer Selection
+        function handleSelectOption(qId, selectedOptId) {
+            const question = questionsData.find(q => q.id === qId);
+            if (!question) return;
+
+            // Save user answer
+            userAnswers[qId] = selectedOptId;
+
+            const isCorrect = (selectedOptId === question.correct);
+
+            // Disable all option buttons for this question to prevent multi-click
+            question.options.forEach(opt => {
+                const btn = document.getElementById(`btn-${qId}-${opt.id}`);
+                if (btn) {
+                    btn.classList.add('disabled');
+                    btn.onclick = null; // lock
+                }
+            });
+
+            // Highlight selected button
+            const selectedBtn = document.getElementById(`btn-${qId}-${selectedOptId}`);
+            if (selectedBtn) {
+                if (isCorrect) {
+                    selectedBtn.classList.add('selected-correct');
+                } else {
+                    selectedBtn.classList.add('selected-wrong');
+                    // Also highlight the true correct answer for clarity
+                    const correctBtn = document.getElementById(`btn-${qId}-${question.correct}`);
+                    if (correctBtn) {
+                        correctBtn.classList.add('selected-correct');
+                    }
+                }
+            }
+
+            // Show status badge
+            const badge = document.getElementById(`badge-${qId}`);
+            if (badge) {
+                badge.classList.remove('hidden');
+                if (isCorrect) {
+                    badge.innerText = "Chính xác! 🎉";
+                    badge.className = "px-3 py-1 text-xs font-black rounded-full uppercase bg-green-100 text-green-700 border border-green-300";
+                } else {
+                    badge.innerText = "Chưa chính xác ❌";
+                    badge.className = "px-3 py-1 text-xs font-black rounded-full uppercase bg-rose-100 text-rose-700 border border-rose-300";
+                }
+            }
+
+            // Play Web Audio FX & Confetti
+            if (isCorrect) {
+                playDingSound();
+                confetti({
+                    particleCount: 40,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                });
+            } else {
+                playBuzzSound();
+            }
+
+            // Auto reveal explanation box
+            const expBox = document.getElementById(`explanation-${qId}`);
+            if (expBox) {
+                expBox.classList.remove('hidden');
+            }
+
+            // Update Progress Bar
+            updateProgress();
+        }
+
+        // Update Header Progress Bar
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const total = questionsData.length;
+            document.getElementById('progress-text').innerText = `${answeredCount} / ${total}`;
+            const percentage = Math.round((answeredCount / total) * 100);
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+        }
+
+        // Calculate final score and trigger popup
+        function submitQuiz() {
+            let correctCount = 0;
+            questionsData.forEach(q => {
+                if (userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const total = questionsData.length;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            document.getElementById('score-text').innerText = `${correctCount} / ${total}`;
+            document.getElementById('percentage-text').innerText = `(${percentage}%)`;
+
+            const feedbackBox = document.getElementById('feedback-box');
+            const modalIcon = document.getElementById('modal-icon');
+
+            if (percentage < 50) {
+                modalIcon.innerText = "💪";
+                feedbackBox.innerHTML = `
+                    <p class="text-rose-700 font-extrabold mb-1">Lời nhắn từ Ms Lê Hằng:</p>
+                    <p>"Điểm lần này chưa cao lắm, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!"</p>
+                `;
+            } else if (percentage <= 80) {
+                modalIcon.innerText = "👏";
+                feedbackBox.innerHTML = `
+                    <p class="text-amber-700 font-extrabold mb-1">Lời nhắn từ Ms Lê Hằng:</p>
+                    <p>"Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!"</p>
+                `;
+            } else {
+                modalIcon.innerText = "🌟";
+                feedbackBox.innerHTML = `
+                    <p class="text-emerald-700 font-extrabold mb-1">Lời nhắn từ Ms Lê Hằng:</p>
+                    <p>"Làm tốt lắm, con cố gắng ring điểm 10 ở lần sau nha!"</p>
+                `;
+                // Big confetti celebration
+                confetti({
+                    particleCount: 120,
+                    spread: 100,
+                    origin: { y: 0.5 }
+                });
+            }
+
+            document.getElementById('result-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('result-modal').classList.add('hidden');
+        }
+
+        // Initialize quiz when window loads
+        window.onload = function() {
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
+```eof
